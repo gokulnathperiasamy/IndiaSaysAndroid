@@ -9,4 +9,6 @@
 
     <string name="user_register_error_message">Please select gender and age!</string>
     <string name="user_register_title">Register</string>
+
+    <string name="copyright_message">\u00A9 India Says, 2017. Version 1.0</string>
 </resources>
