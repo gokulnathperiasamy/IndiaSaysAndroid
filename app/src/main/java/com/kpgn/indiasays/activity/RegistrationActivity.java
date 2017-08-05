@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kpgn.indiasays.R;
 import com.kpgn.indiasays.application.ApplicationConstant;
+import com.kpgn.indiasays.utility.TextUtil;
 import com.triggertrap.seekarc.SeekArc;
 
 import butterknife.Bind;
@@ -28,8 +30,8 @@ public class RegistrationActivity extends AppCompatActivity {
     @Bind(R.id.userAgeText)
     TextView mUserAgeText;
 
-    String userGender;
-    String userAge;
+    String userGender = "";
+    String userAge = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,24 +55,27 @@ public class RegistrationActivity extends AppCompatActivity {
 
             @Override
             public void onProgressChanged(SeekArc seekArc, int progress, boolean fromUser) {
-                mUserAgeText.setText(getProgressText(progress));
+                setProgressText(progress);
             }
         });
     }
 
-    public String getProgressText(int progress) {
+    public void setProgressText(int progress) {
         if (progress <= 20) {
-            return ApplicationConstant.AGE_GROUP_00_14_TEXT;
+            mUserAgeText.setText(ApplicationConstant.AGE_GROUP_00_14_TEXT);
+            userAge = ApplicationConstant.AGE_GROUP_00_14;
         } else if (progress >= 21 && progress <= 40) {
-            return ApplicationConstant.AGE_GROUP_15_24_TEXT;
+            mUserAgeText.setText(ApplicationConstant.AGE_GROUP_15_24_TEXT);
+            userAge = ApplicationConstant.AGE_GROUP_15_24;
         } else if (progress >= 41 && progress <= 60) {
-            return ApplicationConstant.AGE_GROUP_25_34_TEXT;
+            mUserAgeText.setText(ApplicationConstant.AGE_GROUP_25_34_TEXT);
+            userAge = ApplicationConstant.AGE_GROUP_25_34;
         } else if (progress >= 61 && progress <= 80) {
-            return ApplicationConstant.AGE_GROUP_35_44_TEXT;
+            mUserAgeText.setText(ApplicationConstant.AGE_GROUP_35_44_TEXT);
+            userAge = ApplicationConstant.AGE_GROUP_35_44;
         } else if (progress >= 81) {
-            return ApplicationConstant.AGE_GROUP_45_99_TEXT;
-        } else {
-            return "\u2014";
+            mUserAgeText.setText(ApplicationConstant.AGE_GROUP_45_99_TEXT);
+            userAge = ApplicationConstant.AGE_GROUP_45_99;
         }
     }
 
@@ -88,6 +93,14 @@ public class RegistrationActivity extends AppCompatActivity {
         mUserMale.setBackgroundResource(R.drawable.image_view_unselected_background);
         mUserFemale.setBackgroundResource(R.drawable.image_view_selected_background);
         userGender = ApplicationConstant.GENDER_FEMALE;
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.user_register)
+    public void onRegisterPressed(View view) {
+        if (TextUtil.isEmpty(userAge) || TextUtil.isEmpty(userGender)) {
+            Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.user_register_error_message), Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

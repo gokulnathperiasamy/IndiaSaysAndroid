@@ -7,5 +7,6 @@
     <string name="spinner_age_title">Age Group</string>
     <string name="spinner_age_text">\u2014</string>
 
-    <string name="user_register_title">Register!</string>
+    <string name="user_register_error_message">Please select gender and age!</string>
+    <string name="user_register_title">Register</string>
 </resources>
