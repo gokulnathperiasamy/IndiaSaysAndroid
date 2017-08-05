@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:seekarc="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/app_background"
+    android:background="@color/colorAppBackground"
     tools:context=".activity.RegistrationActivity">
 
     <LinearLayout
@@ -11,7 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -22,7 +24,8 @@
                 android:id="@+id/user_male"
                 android:layout_width="96dp"
                 android:layout_height="96dp"
-                android:background="@drawable/image_view_background"
+                android:background="@drawable/image_view_unselected_background"
+                android:contentDescription="@string/user_male"
                 android:src="@drawable/icon_male" />
 
             <View
@@ -33,51 +36,73 @@
                 android:id="@+id/user_female"
                 android:layout_width="96dp"
                 android:layout_height="96dp"
-                android:background="@drawable/image_view_background"
+                android:background="@drawable/image_view_unselected_background"
+                android:contentDescription="@string/user_female"
                 android:src="@drawable/icon_female" />
 
         </LinearLayout>
 
         <View
             android:layout_width="0dp"
-            android:layout_height="15dp" />
+            android:layout_height="20dp" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:orientation="horizontal">
+        <FrameLayout
+            android:id="@+id/seekArcContainer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-            <TextView
+            <com.triggertrap.seekarc.SeekArc
+                android:id="@+id/userAgeSeekArc"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_gravity="center"
+                android:padding="30dp"
+                seekarc:rotation="180"
+                seekarc:startAngle="30"
+                seekarc:sweepAngle="300"
+                seekarc:touchInside="true" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/spinner_age_title" />
+                android:layout_gravity="center"
+                android:orientation="vertical">
 
-            <View
-                android:layout_width="8dp"
-                android:layout_height="00dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:text="@string/spinner_age_title"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
 
-            <Spinner
-                android:id="@+id/user_age"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:prompt="@string/spinner_age_title" />
+                <TextView
+                    android:id="@+id/userAgeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/spinner_age_text"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
-        </LinearLayout>
+        </FrameLayout>
 
         <View
             android:layout_width="0dp"
-            android:layout_height="15dp" />
+            android:layout_height="20dp" />
 
         <TextView
             android:id="@+id/user_register"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="@color/colorPrimaryDark"
+            android:layout_height="40dp"
+            android:background="@android:color/white"
             android:gravity="center"
             android:text="@string/user_register_title"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
+            android:textColor="@color/colorAppBackground"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
     </LinearLayout>
