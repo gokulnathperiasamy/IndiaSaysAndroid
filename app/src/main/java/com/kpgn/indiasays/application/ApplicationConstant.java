@@ -17,4 +17,6 @@ public abstract class ApplicationConstant {
     public static final String AGE_GROUP_35_44_TEXT = "35 - 44";
     public static final String AGE_GROUP_45_99_TEXT = "45 Above";
 
+    public static final int DELAY_LOADING = 2000;
+
 }

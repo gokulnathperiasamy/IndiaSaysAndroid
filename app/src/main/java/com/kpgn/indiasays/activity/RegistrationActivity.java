@@ -1,6 +1,6 @@
 package com.kpgn.indiasays.activity;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,7 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class RegistrationActivity extends AppCompatActivity {
+public class RegistrationActivity extends BaseActivity {
 
     @Bind(R.id.user_male)
     ImageView mUserMale;
@@ -31,7 +31,7 @@ public class RegistrationActivity extends AppCompatActivity {
     TextView mUserAgeText;
 
     String userGender = "";
-    String userAge = "";
+    String userAgeGroup = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,19 +63,19 @@ public class RegistrationActivity extends AppCompatActivity {
     public void setProgressText(int progress) {
         if (progress <= 20) {
             mUserAgeText.setText(ApplicationConstant.AGE_GROUP_00_14_TEXT);
-            userAge = ApplicationConstant.AGE_GROUP_00_14;
+            userAgeGroup = ApplicationConstant.AGE_GROUP_00_14;
         } else if (progress >= 21 && progress <= 40) {
             mUserAgeText.setText(ApplicationConstant.AGE_GROUP_15_24_TEXT);
-            userAge = ApplicationConstant.AGE_GROUP_15_24;
+            userAgeGroup = ApplicationConstant.AGE_GROUP_15_24;
         } else if (progress >= 41 && progress <= 60) {
             mUserAgeText.setText(ApplicationConstant.AGE_GROUP_25_34_TEXT);
-            userAge = ApplicationConstant.AGE_GROUP_25_34;
+            userAgeGroup = ApplicationConstant.AGE_GROUP_25_34;
         } else if (progress >= 61 && progress <= 80) {
             mUserAgeText.setText(ApplicationConstant.AGE_GROUP_35_44_TEXT);
-            userAge = ApplicationConstant.AGE_GROUP_35_44;
+            userAgeGroup = ApplicationConstant.AGE_GROUP_35_44;
         } else if (progress >= 81) {
             mUserAgeText.setText(ApplicationConstant.AGE_GROUP_45_99_TEXT);
-            userAge = ApplicationConstant.AGE_GROUP_45_99;
+            userAgeGroup = ApplicationConstant.AGE_GROUP_45_99;
         }
     }
 
@@ -98,8 +98,13 @@ public class RegistrationActivity extends AppCompatActivity {
     @SuppressWarnings("unused")
     @OnClick(R.id.user_register)
     public void onRegisterPressed(View view) {
-        if (TextUtil.isEmpty(userAge) || TextUtil.isEmpty(userGender)) {
+        if (TextUtil.isEmpty(userAgeGroup) || TextUtil.isEmpty(userGender)) {
             Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.user_register_error_message), Toast.LENGTH_SHORT).show();
+        } else {
+            applicationSharedPreference.setUserGender(userGender);
+            applicationSharedPreference.setUserAgeGroup(userAgeGroup);
+            startActivity(new Intent(RegistrationActivity.this, QuestionActivity.class));
+            finish();
         }
     }
 
