@@ -24,8 +24,8 @@ import okhttp3.Response;
 
 public class SplashActivity extends BaseActivity {
 
-    @Bind(R.id.avi_splash_screen)
-    AVLoadingIndicatorView mAVISplashScreen;
+    @Bind(R.id.avi_loading)
+    AVLoadingIndicatorView mAVILoading;
 
     @Bind(R.id.loading_message)
     TextView mLoadingMessage;
@@ -90,7 +90,7 @@ public class SplashActivity extends BaseActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mAVISplashScreen.hide();
+                mAVILoading.hide();
                 mLoadingErrorImage.setVisibility(View.VISIBLE);
                 mLoadingMessage.setText(getString(R.string.error_loading_message));
             }

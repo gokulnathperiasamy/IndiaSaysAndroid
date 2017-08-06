@@ -8,6 +8,7 @@ public abstract class EndPoint {
     private static final String BASE_URL = "http://" + BASE_IP + ":" + BASE_PORT + "/" + CONTEXT_ROOT;
 
     public static final String IS_CONNECTED = BASE_URL + "/bwc/isconnected";
+    public static final String GET_QUESTION_OPTIONS = BASE_URL + "/qowc/getquestionoptions";
 
 
 }

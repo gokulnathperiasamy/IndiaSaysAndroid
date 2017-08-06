@@ -3,6 +3,4 @@
     <color name="colorPrimary">#505C76</color>
     <color name="colorPrimaryDark">#3f4c68</color>
     <color name="colorAccent">#FFFFFF</color>
-
-    <color name="colorAppBackground">#505C76</color>
 </resources>

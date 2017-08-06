@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAppBackground"
+    android:background="@color/colorPrimary"
     tools:context=".activity.RegistrationActivity">
 
     <LinearLayout
@@ -102,26 +102,11 @@
             android:gravity="center"
             android:text="@string/user_register_title"
             android:textAllCaps="true"
-            android:textColor="@color/colorAppBackground"
+            android:textColor="@color/colorPrimary"
             android:textSize="14sp"
             android:textStyle="bold" />
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="end"
-        android:padding="8dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/copyright_message"
-            android:textColor="@android:color/white"
-            android:textSize="12sp" />
-
-    </LinearLayout>
-
+    <include layout="@layout/view_copyright_message" />
 </RelativeLayout>

@@ -1,13 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_question"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.kpgn.indiasays.activity.QuestionActivity">
+    android:background="@color/colorPrimary"
+    tools:context=".activity.QuestionActivity">
+
+    <include layout="@layout/view_loading_container" />
+
+    <LinearLayout
+        android:id="@+id/question_option_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            tools:text="Sample question with four options below. Please select one option." />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="48dp" />
+
+        <TextView
+            android:id="@+id/option_a"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="Option A" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="12dp" />
+
+        <TextView
+            android:id="@+id/option_b"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="Option B" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="12dp" />
+
+        <TextView
+            android:id="@+id/option_c"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="Option C" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="12dp" />
+
+        <TextView
+            android:id="@+id/option_d"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="Option D" />
+
+    </LinearLayout>
+
+    <include layout="@layout/view_copyright_message" />
 
 </RelativeLayout>
