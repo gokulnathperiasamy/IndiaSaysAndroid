@@ -1,4 +1,4 @@
-package com.kpgn.indiasays.utility;
+package com.surveyin.utility;
 
 public abstract class TextUtil {
 

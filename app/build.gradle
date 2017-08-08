@@ -9,11 +9,11 @@ def appVersionCode() {
 }
 
 def appApplicationID() {
-    return "com.kpgn.indiasays"
+    return "com.surveyin"
 }
 
 def appName() {
-    return "IndiaSays"
+    return "SurveyIN"
 }
 
 android {

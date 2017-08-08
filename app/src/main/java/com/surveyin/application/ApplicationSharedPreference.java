@@ -1,4 +1,4 @@
-package com.kpgn.indiasays.application;
+package com.surveyin.application;
 
 import android.content.Context;
 import android.content.SharedPreferences;

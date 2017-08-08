@@ -1,4 +1,4 @@
-package com.kpgn.indiasays.activity;
+package com.surveyin.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -6,9 +6,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.kpgn.indiasays.R;
-import com.kpgn.indiasays.application.ApplicationConstant;
-import com.kpgn.indiasays.application.EndPoint;
+import com.surveyin.R;
+import com.surveyin.activity.BaseActivity;
+import com.surveyin.application.ApplicationConstant;
+import com.surveyin.application.EndPoint;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONException;

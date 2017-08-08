@@ -1,4 +1,4 @@
-package com.kpgn.indiasays.application;
+package com.surveyin.application;
 
 public abstract class ApplicationConstant {
 

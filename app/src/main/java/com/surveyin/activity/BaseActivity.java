@@ -1,9 +1,10 @@
-package com.kpgn.indiasays.activity;
+package com.surveyin.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.kpgn.indiasays.application.ApplicationSharedPreference;
+
+import com.surveyin.application.ApplicationSharedPreference;
 
 import okhttp3.OkHttpClient;
 
