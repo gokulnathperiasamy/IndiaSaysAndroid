@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.surveyin.R;
 import com.surveyin.application.ApplicationConstant;
 import com.surveyin.application.EndPoint;
+import com.surveyin.utility.TextUtil;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONException;
@@ -117,10 +118,10 @@ public class QuestionActivity extends BaseActivity {
             public void run() {
                 try {
                     mQuestion.setText(jsonObject.getString(ApplicationConstant.QUESTION));
-                    mOptionA.setText(jsonObject.getString(ApplicationConstant.OPTION_A));
-                    mOptionB.setText(jsonObject.getString(ApplicationConstant.OPTION_B));
-                    mOptionC.setText(jsonObject.getString(ApplicationConstant.OPTION_C));
-                    mOptionD.setText(jsonObject.getString(ApplicationConstant.OPTION_D));
+                    checkIfOptionAvailable(mOptionA, jsonObject.getString(ApplicationConstant.OPTION_A));
+                    checkIfOptionAvailable(mOptionB, jsonObject.getString(ApplicationConstant.OPTION_B));
+                    checkIfOptionAvailable(mOptionC, jsonObject.getString(ApplicationConstant.OPTION_C));
+                    checkIfOptionAvailable(mOptionD, jsonObject.getString(ApplicationConstant.OPTION_D));
                     loadingContainer.setVisibility(View.GONE);
                     questionOptionContainer.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
@@ -130,6 +131,14 @@ public class QuestionActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    private void checkIfOptionAvailable(TextView tvOption, String stringOption) {
+        if (!TextUtil.isEmpty(stringOption)) {
+            tvOption.setText(stringOption);
+        } else {
+            tvOption.setVisibility(View.GONE);
+        }
     }
 
     private void updateErrorUI() {
