@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">India Says</string>
+    <string name="app_name">SurveyIN</string>
 
     <string name="user_male">Male</string>
     <string name="user_female">Female</string>
@@ -7,10 +7,10 @@
     <string name="spinner_age_title">Age Group</string>
     <string name="spinner_age_text">\u2014</string>
 
-    <string name="user_register_error_message">Please select gender and age!</string>
+    <string name="user_register_error_message">Please select Gender and Age</string>
     <string name="user_register_title">Register</string>
 
-    <string name="loading_message">Loading. Please wait!</string>
+    <string name="loading_message">Connecting to server. Please wait.</string>
     <string name="error_loading_message">Unable to reach server.\nPlease try after few minutes.</string>
     <string name="copyright_message">\u00A9 India Says, 2017. Version 1.0</string>
 </resources>

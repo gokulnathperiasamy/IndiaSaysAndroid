@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:layout_margin="16dp"
+    android:background="@drawable/rounded_layout"
     tools:context=".activity.RegistrationActivity">
 
     <LinearLayout
@@ -58,6 +59,7 @@
                 android:layout_height="160dp"
                 android:layout_gravity="center"
                 android:padding="30dp"
+                seekarc:arcWidth="3dp"
                 seekarc:rotation="180"
                 seekarc:startAngle="30"
                 seekarc:sweepAngle="300"

@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.surveyin.R;
-import com.surveyin.activity.BaseActivity;
 import com.surveyin.application.ApplicationConstant;
 import com.surveyin.application.EndPoint;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -120,8 +119,8 @@ public class QuestionActivity extends BaseActivity {
                     mQuestion.setText(jsonObject.getString(ApplicationConstant.QUESTION));
                     mOptionA.setText(jsonObject.getString(ApplicationConstant.OPTION_A));
                     mOptionB.setText(jsonObject.getString(ApplicationConstant.OPTION_B));
-//                    mOptionC.setText(jsonObject.getString(ApplicationConstant.OPTION_C));
-//                    mOptionD.setText(jsonObject.getString(ApplicationConstant.OPTION_D));
+                    mOptionC.setText(jsonObject.getString(ApplicationConstant.OPTION_C));
+                    mOptionD.setText(jsonObject.getString(ApplicationConstant.OPTION_D));
                     loadingContainer.setVisibility(View.GONE);
                     questionOptionContainer.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
