@@ -1,6 +1,6 @@
 package com.surveyin.application;
 
-public abstract class ApplicationConstant {
+public class ApplicationConstant {
 
     public static final String GENDER_MALE = "M";
     public static final String GENDER_FEMALE = "F";

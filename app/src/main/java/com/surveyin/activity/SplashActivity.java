@@ -45,6 +45,9 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
 
+        // Set the question as null. Hence new data will be reloaded.
+        applicationSharedPreference.setNewQuestion(null);
+
         if (NetworkUtil.isNetworkAvailable(this)) {
             loadData();
         } else {
@@ -136,7 +139,6 @@ public class SplashActivity extends BaseActivity {
     private void parseServerConnectionCheckResponse(Response response) {
         if (response != null && response.isSuccessful()) {
             loadQuestionFromServer();
-            checkIfUserRegistered();
         } else {
             updateUI();
         }
@@ -164,6 +166,7 @@ public class SplashActivity extends BaseActivity {
         } else {
             showError(true);
         }
+        checkIfUserRegistered();
     }
 
 }
