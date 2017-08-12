@@ -5,19 +5,20 @@
     android:id="@+id/activity_question"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:layout_margin="16dp"
+    android:background="@drawable/rounded_layout"
     tools:context=".activity.QuestionActivity">
+
+    <include layout="@layout/view_empty_container" />
 
     <LinearLayout
         android:id="@+id/question_option_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:layout_margin="12dp"
-        android:background="@drawable/rounded_layout"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="12dp"
+        android:padding="16dp"
         android:visibility="visible">
 
         <TextView
@@ -90,5 +91,7 @@
             tools:text="Option D" />
 
     </LinearLayout>
+
+    <include layout="@layout/view_copyright_message" />
 
 </RelativeLayout>

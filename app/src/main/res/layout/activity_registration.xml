@@ -8,6 +8,8 @@
     android:background="@drawable/rounded_layout"
     tools:context=".activity.RegistrationActivity">
 
+    <include layout="@layout/view_empty_container" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
