@@ -7,11 +7,17 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.surveyin.R;
 import com.surveyin.application.ApplicationConstant;
 import com.surveyin.application.EndPoint;
+import com.surveyin.entity.QuestionOptions;
+import com.surveyin.utility.NetworkUtil;
 import com.surveyin.utility.TextUtil;
 import com.wang.avi.AVLoadingIndicatorView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -39,8 +45,46 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
 
-        loadData();
+        if (NetworkUtil.isNetworkAvailable(this)) {
+            loadData();
+        } else {
+            showError(false);
+        }
     }
+
+    /***************************** Load Data *********************************/
+
+    private void checkIfUserRegistered() {
+        if (TextUtil.isEmpty(applicationSharedPreference.getUserAgeGroup()) || TextUtil.isEmpty(applicationSharedPreference.getUserGender())) {
+            startActivity(new Intent(SplashActivity.this, RegistrationActivity.class));
+        } else {
+            startActivity(new Intent(SplashActivity.this, QuestionActivity.class));
+        }
+        finish();
+    }
+
+    /**************************** UI Updates *********************************/
+
+    private void updateUI() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                showError(true);
+            }
+        });
+    }
+
+    private void showError(boolean isNetworkAvailable) {
+        mAVILoading.hide();
+        mLoadingErrorImage.setVisibility(View.VISIBLE);
+        if (isNetworkAvailable) {
+            mLoadingMessage.setText(getString(R.string.error_loading_message));
+        } else {
+            mLoadingMessage.setText(getString(R.string.network_error_message));
+        }
+    }
+
+    /*************************** Network Calls *******************************/
 
     private void loadData() {
         new Handler().postDelayed(new Runnable() {
@@ -59,42 +103,67 @@ public class SplashActivity extends BaseActivity {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                parseResponse(null);
+                parseServerConnectionCheckResponse(null);
             }
 
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
-                parseResponse(response);
+                parseServerConnectionCheckResponse(response);
             }
         });
     }
 
-    private void parseResponse(Response response) {
+    private void loadQuestionFromServer() {
+        Request request = new Request.Builder()
+                .url(EndPoint.GET_QUESTION_OPTIONS)
+                .build();
+
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                parseQuestionOptionResponse(null);
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                parseQuestionOptionResponse(response);
+            }
+        });
+    }
+
+    /************************** Parse Response *******************************/
+
+    private void parseServerConnectionCheckResponse(Response response) {
         if (response != null && response.isSuccessful()) {
+            loadQuestionFromServer();
             checkIfUserRegistered();
         } else {
             updateUI();
         }
     }
 
-    private void checkIfUserRegistered() {
-        if (TextUtil.isEmpty(applicationSharedPreference.getUserAgeGroup()) || TextUtil.isEmpty(applicationSharedPreference.getUserGender())) {
-            startActivity(new Intent(SplashActivity.this, RegistrationActivity.class));
-        } else {
-            startActivity(new Intent(SplashActivity.this, QuestionActivity.class));
-        }
-        finish();
-    }
-
-    private void updateUI() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mAVILoading.hide();
-                mLoadingErrorImage.setVisibility(View.VISIBLE);
-                mLoadingMessage.setText(getString(R.string.error_loading_message));
+    private void parseQuestionOptionResponse(Response response) {
+        if (response != null && response.isSuccessful() && response.body() != null) {
+            try {
+                String responseString = response.body().string();
+                JSONObject jsonObject = new JSONObject(responseString);
+                QuestionOptions questionOptions = new QuestionOptions();
+                questionOptions.question = jsonObject.getString(ApplicationConstant.QUESTION);
+                questionOptions.optionA = jsonObject.getString(ApplicationConstant.OPTION_A);
+                questionOptions.optionB = jsonObject.getString(ApplicationConstant.OPTION_B);
+                questionOptions.optionC = jsonObject.getString(ApplicationConstant.OPTION_C);
+                questionOptions.optionD = jsonObject.getString(ApplicationConstant.OPTION_D);
+                applicationSharedPreference.setNewQuestion(new Gson().toJson(questionOptions));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        });
+        } else {
+            showError(true);
+        }
     }
 
 }
