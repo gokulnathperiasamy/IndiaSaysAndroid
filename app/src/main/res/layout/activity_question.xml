@@ -11,6 +11,8 @@
 
     <include layout="@layout/view_empty_container" />
 
+    <include layout="@layout/view_user_selection_success" />
+
     <LinearLayout
         android:id="@+id/question_option_container"
         android:layout_width="match_parent"

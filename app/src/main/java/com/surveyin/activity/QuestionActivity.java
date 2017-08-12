@@ -3,6 +3,8 @@ package com.surveyin.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.surveyin.R;
@@ -42,6 +44,18 @@ public class QuestionActivity extends BaseActivity {
     @Bind(R.id.option_d)
     TextView mOptionD;
 
+    @Bind(R.id.question_option_container)
+    View questionOptionsContainer;
+
+    @Bind(R.id.user_selection_success_container)
+    View userSelectionSuccess;
+
+    @Bind(R.id.app_logo)
+    ImageView appLogo;
+
+    @Bind(R.id.update_success_message)
+    TextView mUpdateSuccessMessage;
+
     protected QuestionOptions questionOptions;
 
     String userGender = "";
@@ -57,6 +71,8 @@ public class QuestionActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         userResponse = new UserResponse();
+
+        showQuestionsContainer(true);
         loadUserProfile();
         updateUI();
     }
@@ -67,6 +83,16 @@ public class QuestionActivity extends BaseActivity {
     }
 
     /**************************** UI Updates *********************************/
+
+    private void showQuestionsContainer(boolean flag) {
+        if (flag) {
+            questionOptionsContainer.setVisibility(View.VISIBLE);
+            userSelectionSuccess.setVisibility(View.GONE);
+        } else {
+            questionOptionsContainer.setVisibility(View.GONE);
+            userSelectionSuccess.setVisibility(View.VISIBLE);
+        }
+    }
 
     private void updateUI() {
         try {
@@ -90,7 +116,24 @@ public class QuestionActivity extends BaseActivity {
     }
 
     private void updateResponseUI(boolean isSuccess) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                startAnimation();
+            }
+        });
+    }
 
+    private void startAnimation() {
+        showQuestionsContainer(false);
+
+        AlphaAnimation imageAlphaAnimation = new AlphaAnimation(0.0f, 1.0f);
+        imageAlphaAnimation.setDuration(ApplicationConstant.DELAY_LOADING);
+        imageAlphaAnimation.setStartOffset(0);
+        imageAlphaAnimation.setFillAfter(true);
+        appLogo.startAnimation(imageAlphaAnimation);
+
+        mUpdateSuccessMessage.setVisibility(View.VISIBLE);
     }
 
     /************************** Option Selected ******************************/
@@ -160,7 +203,7 @@ public class QuestionActivity extends BaseActivity {
             public void run() {
                 postDataToServer();
             }
-        }, ApplicationConstant.DELAY_LOADING);
+        }, 0);
     }
 
     private void postDataToServer() {
