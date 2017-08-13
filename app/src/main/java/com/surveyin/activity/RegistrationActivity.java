@@ -2,6 +2,7 @@ package com.surveyin.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -98,14 +99,29 @@ public class RegistrationActivity extends BaseActivity {
     @SuppressWarnings("unused")
     @OnClick(R.id.user_register)
     public void onRegisterPressed(View view) {
-        if (TextUtil.isEmpty(userAgeGroup) || TextUtil.isEmpty(userGender)) {
-            Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.user_register_error_message), Toast.LENGTH_SHORT).show();
-        } else {
-            applicationSharedPreference.setUserGender(userGender);
-            applicationSharedPreference.setUserAgeGroup(userAgeGroup);
-            startActivity(new Intent(RegistrationActivity.this, QuestionActivity.class));
-            finish();
-        }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                delayedRegister();
+            }
+        }, 1000);
+    }
+
+    private void delayedRegister() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (TextUtil.isEmpty(userAgeGroup) || TextUtil.isEmpty(userGender)) {
+                    Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.user_register_error_message), Toast.LENGTH_SHORT).show();
+                } else {
+                    applicationSharedPreference.setUserGender(userGender);
+                    applicationSharedPreference.setUserAgeGroup(userAgeGroup);
+                    startActivity(new Intent(RegistrationActivity.this, QuestionActivity.class));
+                    finish();
+                }
+            }
+        });
     }
 
 }
