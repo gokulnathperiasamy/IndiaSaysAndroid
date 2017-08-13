@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+def appName() {
+    return "SurveyIN"
+}
+
 def appVersionName() {
     return "0.1"
 }
@@ -12,19 +16,28 @@ def appApplicationID() {
     return "com.surveyin"
 }
 
-def appName() {
-    return "SurveyIN"
+def minSDKVersion() {
+    return 16
+}
+
+def targetCompileSDKVersion() {
+    return 25
+}
+
+def archiveBaseName() {
+    return appName() + "_" + appVersionName()
 }
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion targetCompileSDKVersion()
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId appApplicationID()
-        minSdkVersion 16
-        targetSdkVersion 25
+        minSdkVersion minSDKVersion()
+        targetSdkVersion targetCompileSDKVersion()
         versionCode appVersionCode()
         versionName appVersionName()
+        setProperty("archivesBaseName", archiveBaseName())
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
