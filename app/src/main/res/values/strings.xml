@@ -14,6 +14,7 @@
     <string name="loading_message">Connecting to server. Please wait.</string>
     <string name="error_loading_message">Unable to reach server.\nPlease try after few minutes.</string>
     <string name="updated_successfully">Successfully Updated!</string>
+    <string name="already_answered">Already Answered!</string>
 
     <string name="copyright_message">\u00A9 India Says, 2017. Version 1.0</string>
 </resources>

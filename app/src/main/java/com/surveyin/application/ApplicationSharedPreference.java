@@ -3,12 +3,18 @@ package com.surveyin.application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class ApplicationSharedPreference {
 
     private static final String SHARED_PREFERENCE_NAME = "IndiaSaysSP";
     private static final String SHARED_PREFERENCE_USER_GENDER = "UserGender";
     private static final String SHARED_PREFERENCE_USER_AGE_GROUP = "AgeGroup";
     private static final String SHARED_PREFERENCE_NEW_QUESTION = "NewQuestion";
+    private static final String SHARED_PREFERENCE_ALREADY_ANSWERED_QUESTION_LIST = "AlreadyAnsweredQuestionList";
 
     private static SharedPreferences sharedPreferences;
 
@@ -46,6 +52,27 @@ public class ApplicationSharedPreference {
 
     public String getNewQuestion() {
         return sharedPreferences.getString(SHARED_PREFERENCE_NEW_QUESTION, null);
+    }
+
+    public void setAlreadyAnsweredQuestionList(String alreadyAnsweredQuestion) {
+        List<String> alreadyAnsweredQuestionList = getAlreadyAnsweredQuestionList();
+        alreadyAnsweredQuestionList.add(alreadyAnsweredQuestion);
+
+        Set<String> alreadyAnsweredQuestionSet = new HashSet<>();
+        alreadyAnsweredQuestionSet.addAll(alreadyAnsweredQuestionList);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putStringSet(SHARED_PREFERENCE_ALREADY_ANSWERED_QUESTION_LIST, alreadyAnsweredQuestionSet);
+        editor.apply();
+    }
+
+    public List<String> getAlreadyAnsweredQuestionList() {
+        List<String> alreadyAnsweredQuestionList = new ArrayList<>();
+        Set<String> alreadyAnsweredQuestionSet = sharedPreferences.getStringSet(SHARED_PREFERENCE_ALREADY_ANSWERED_QUESTION_LIST, null);
+        if (alreadyAnsweredQuestionSet != null) {
+            alreadyAnsweredQuestionList = new ArrayList<>(alreadyAnsweredQuestionSet);
+        }
+        return alreadyAnsweredQuestionList;
     }
 
 }

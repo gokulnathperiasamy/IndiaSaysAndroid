@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.surveyin.R;
 import com.surveyin.application.ApplicationConstant;
@@ -72,22 +73,29 @@ public class QuestionActivity extends BaseActivity {
 
         userResponse = new UserResponse();
 
-        showQuestionsContainer(true);
-        loadUserProfile();
-        updateUI();
+        loadPreferenceData();
+        if (applicationSharedPreference.getAlreadyAnsweredQuestionList().contains(questionOptions.question)) {
+            showQuestionsContainer(false);
+            mUpdateSuccessMessage.setVisibility(View.VISIBLE);
+            mUpdateSuccessMessage.setText(getString(R.string.already_answered));
+        } else {
+            showQuestionsContainer(true);
+        }
     }
 
-    private void loadUserProfile() {
+    private void loadPreferenceData() {
         userGender = applicationSharedPreference.getUserGender();
         userAgeGroup = applicationSharedPreference.getUserAgeGroup();
+        questionOptions = gson.fromJson(applicationSharedPreference.getNewQuestion(), QuestionOptions.class);
     }
 
     /**************************** UI Updates *********************************/
 
-    private void showQuestionsContainer(boolean flag) {
-        if (flag) {
+    private void showQuestionsContainer(boolean isNotAnswered) {
+        if (isNotAnswered) {
             questionOptionsContainer.setVisibility(View.VISIBLE);
             userSelectionSuccess.setVisibility(View.GONE);
+            updateUI();
         } else {
             questionOptionsContainer.setVisibility(View.GONE);
             userSelectionSuccess.setVisibility(View.VISIBLE);
@@ -96,7 +104,6 @@ public class QuestionActivity extends BaseActivity {
 
     private void updateUI() {
         try {
-            questionOptions = gson.fromJson(applicationSharedPreference.getNewQuestion(), QuestionOptions.class);
             mQuestion.setText(questionOptions.question);
             checkIfOptionAvailable(mOptionA, questionOptions.optionA);
             checkIfOptionAvailable(mOptionB, questionOptions.optionB);
@@ -115,17 +122,22 @@ public class QuestionActivity extends BaseActivity {
         }
     }
 
-    private void updateResponseUI(boolean isSuccess) {
+    private void updateResponseUI(final boolean isSuccess) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                startAnimation();
+                if (isSuccess) {
+                    startAnimation();
+                } else {
+                    Toast.makeText(getApplicationContext(), getString(R.string.error_loading_message), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
     private void startAnimation() {
         showQuestionsContainer(false);
+        applicationSharedPreference.setAlreadyAnsweredQuestionList(questionOptions.question);
 
         AlphaAnimation imageAlphaAnimation = new AlphaAnimation(0.0f, 1.0f);
         imageAlphaAnimation.setDuration(ApplicationConstant.DELAY_LOADING);
