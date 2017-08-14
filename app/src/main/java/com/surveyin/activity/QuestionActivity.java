@@ -1,5 +1,6 @@
 package com.surveyin.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -57,6 +58,9 @@ public class QuestionActivity extends BaseActivity {
     @Bind(R.id.update_success_message)
     TextView mUpdateSuccessMessage;
 
+    @Bind(R.id.action_view_result)
+    TextView mViewResult;
+
     protected QuestionOptions questionOptions;
 
     String userGender = "";
@@ -78,6 +82,7 @@ public class QuestionActivity extends BaseActivity {
             showQuestionsContainer(false);
             mUpdateSuccessMessage.setVisibility(View.VISIBLE);
             mUpdateSuccessMessage.setText(getString(R.string.already_answered));
+            mViewResult.setVisibility(View.VISIBLE);
         } else {
             showQuestionsContainer(true);
         }
@@ -146,6 +151,7 @@ public class QuestionActivity extends BaseActivity {
         appLogo.startAnimation(imageAlphaAnimation);
 
         mUpdateSuccessMessage.setVisibility(View.VISIBLE);
+        mViewResult.setVisibility(View.VISIBLE);
     }
 
     /************************** Option Selected ******************************/
@@ -178,33 +184,11 @@ public class QuestionActivity extends BaseActivity {
         formatRequestBody();
     }
 
-    private void formatRequestBody() {
-        userResponse.QuestionID = AnswerSelectionUtil.getFormattedQuestionID(questionOptions, userGender, selectedOption);
-        userResponse.Options = selectedOption;
-
-        switch (userAgeGroup) {
-            case ApplicationConstant.AGE_GROUP_00_14:
-                userResponse.Age_Group_00_14 = 1;
-                break;
-
-            case ApplicationConstant.AGE_GROUP_15_24:
-                userResponse.Age_Group_15_24 = 1;
-                break;
-
-            case ApplicationConstant.AGE_GROUP_25_34:
-                userResponse.Age_Group_25_34 = 1;
-                break;
-
-            case ApplicationConstant.AGE_GROUP_35_44:
-                userResponse.Age_Group_35_44 = 1;
-                break;
-
-            case ApplicationConstant.AGE_GROUP_45_99:
-                userResponse.Age_Group_45_99 = 1;
-                break;
-        }
-
-        postData();
+    @SuppressWarnings("unused")
+    @OnClick(R.id.action_view_result)
+    public void viewResult(View view) {
+        startActivity(new Intent(QuestionActivity.this, ResultActivity.class));
+        finish();
     }
 
     /*************************** Network Calls *******************************/
@@ -248,6 +232,36 @@ public class QuestionActivity extends BaseActivity {
         } else {
             updateResponseUI(false);
         }
+    }
+
+
+    private void formatRequestBody() {
+        userResponse.QuestionID = AnswerSelectionUtil.getFormattedQuestionID(questionOptions, userGender, selectedOption);
+        userResponse.Options = selectedOption;
+
+        switch (userAgeGroup) {
+            case ApplicationConstant.AGE_GROUP_00_14:
+                userResponse.Age_Group_00_14 = 1;
+                break;
+
+            case ApplicationConstant.AGE_GROUP_15_24:
+                userResponse.Age_Group_15_24 = 1;
+                break;
+
+            case ApplicationConstant.AGE_GROUP_25_34:
+                userResponse.Age_Group_25_34 = 1;
+                break;
+
+            case ApplicationConstant.AGE_GROUP_35_44:
+                userResponse.Age_Group_35_44 = 1;
+                break;
+
+            case ApplicationConstant.AGE_GROUP_45_99:
+                userResponse.Age_Group_45_99 = 1;
+                break;
+        }
+
+        postData();
     }
 
 }
