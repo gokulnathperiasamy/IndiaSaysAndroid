@@ -5,7 +5,7 @@ public abstract class TextUtil {
     public static final String STRING_DELIMITER = "|";
 
     public static boolean isEmpty(String string) {
-        return string == null || string.length() == 0;
+        return string == null || string.length() < 1;
     }
 
     public static String trimStringLength(String string, int maxLength) {

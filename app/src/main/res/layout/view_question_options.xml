@@ -1,0 +1,124 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/question_option_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:visibility="visible">
+
+    <TextView
+        android:id="@+id/question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        tools:text="Sample question with four options below. Please select one option." />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="48dp" />
+
+    <com.andexert.library.RippleView
+        android:id="@+id/option_a_ripple"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        ripple:rv_centered="true"
+        ripple:rv_color="@color/colorPrimaryLight">
+
+        <TextView
+            android:id="@+id/option_a"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            tools:text="Option A" />
+
+    </com.andexert.library.RippleView>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="12dp" />
+
+    <com.andexert.library.RippleView
+        android:id="@+id/option_b_ripple"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        ripple:rv_centered="true"
+        ripple:rv_color="@color/colorPrimaryLight">
+
+        <TextView
+            android:id="@+id/option_b"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            tools:text="Option B" />
+
+    </com.andexert.library.RippleView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="12dp" />
+
+    <com.andexert.library.RippleView
+        android:id="@+id/option_c_ripple"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        ripple:rv_centered="true"
+        ripple:rv_color="@color/colorPrimaryLight">
+
+        <TextView
+            android:id="@+id/option_c"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            tools:text="Option C" />
+
+    </com.andexert.library.RippleView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="12dp" />
+
+    <com.andexert.library.RippleView
+        android:id="@+id/option_d_ripple"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        ripple:rv_centered="true"
+        ripple:rv_color="@color/colorPrimaryLight">
+
+        <TextView
+            android:id="@+id/option_d"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            tools:text="Option D" />
+
+    </com.andexert.library.RippleView>
+
+</LinearLayout>

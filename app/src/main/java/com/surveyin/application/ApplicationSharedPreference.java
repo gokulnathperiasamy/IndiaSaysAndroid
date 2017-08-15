@@ -13,7 +13,7 @@ public class ApplicationSharedPreference {
     private static final String SHARED_PREFERENCE_NAME = "IndiaSaysSP";
     private static final String SHARED_PREFERENCE_USER_GENDER = "UserGender";
     private static final String SHARED_PREFERENCE_USER_AGE_GROUP = "AgeGroup";
-    private static final String SHARED_PREFERENCE_NEW_QUESTION = "NewQuestion";
+    private static final String SHARED_PREFERENCE_NEW_QUESTION = "NewQuestions";
     private static final String SHARED_PREFERENCE_ALREADY_ANSWERED_QUESTION_LIST = "AlreadyAnsweredQuestionList";
 
     private static SharedPreferences sharedPreferences;
@@ -44,13 +44,13 @@ public class ApplicationSharedPreference {
         return sharedPreferences.getString(SHARED_PREFERENCE_USER_AGE_GROUP, null);
     }
 
-    public void setNewQuestion(String newQuestion) {
+    public void setNewQuestions(String newQuestion) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(SHARED_PREFERENCE_NEW_QUESTION, newQuestion);
         editor.apply();
     }
 
-    public String getNewQuestion() {
+    public String getNewQuestions() {
         return sharedPreferences.getString(SHARED_PREFERENCE_NEW_QUESTION, null);
     }
 

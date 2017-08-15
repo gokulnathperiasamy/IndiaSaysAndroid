@@ -16,10 +16,13 @@ import com.surveyin.utility.NetworkUtil;
 import com.surveyin.utility.TextUtil;
 import com.wang.avi.AVLoadingIndicatorView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -46,7 +49,7 @@ public class SplashActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         // Set the question as null. Hence new data will be reloaded.
-        applicationSharedPreference.setNewQuestion(null);
+        applicationSharedPreference.setNewQuestions(null);
 
         if (NetworkUtil.isNetworkAvailable(this)) {
             loadData();
@@ -145,17 +148,23 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void parseQuestionOptionResponse(Response response) {
+        List<QuestionOptions> questionOptionsList = new ArrayList<>();
         if (response != null && response.isSuccessful() && response.body() != null) {
             try {
                 String responseString = response.body().string();
-                JSONObject jsonObject = new JSONObject(responseString);
-                QuestionOptions questionOptions = new QuestionOptions();
-                questionOptions.question = jsonObject.getString(ApplicationConstant.QUESTION);
-                questionOptions.optionA = jsonObject.getString(ApplicationConstant.OPTION_A);
-                questionOptions.optionB = jsonObject.getString(ApplicationConstant.OPTION_B);
-                questionOptions.optionC = jsonObject.getString(ApplicationConstant.OPTION_C);
-                questionOptions.optionD = jsonObject.getString(ApplicationConstant.OPTION_D);
-                applicationSharedPreference.setNewQuestion(new Gson().toJson(questionOptions));
+                JSONArray jsonArray = new JSONArray(responseString);
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    QuestionOptions questionOptions = new QuestionOptions();
+                    questionOptions.question = jsonObject.getString(ApplicationConstant.QUESTION);
+                    questionOptions.optionA = jsonObject.getString(ApplicationConstant.OPTION_A);
+                    questionOptions.optionB = jsonObject.getString(ApplicationConstant.OPTION_B);
+                    questionOptions.optionC = jsonObject.getString(ApplicationConstant.OPTION_C);
+                    questionOptions.optionD = jsonObject.getString(ApplicationConstant.OPTION_D);
+                    questionOptionsList.add(questionOptions);
+                }
+                applicationSharedPreference.setNewQuestions(new Gson().toJson(questionOptionsList));
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (IOException e) {

@@ -5,7 +5,7 @@
     android:layout_centerInParent="true"
     android:layout_margin="16dp"
     android:background="@color/colorPrimary"
-    android:visibility="gone">
+    android:visibility="visible">
 
     <LinearLayout
         android:layout_width="wrap_content"
