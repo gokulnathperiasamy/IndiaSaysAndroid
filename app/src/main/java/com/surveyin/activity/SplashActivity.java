@@ -26,6 +26,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Request;
@@ -42,6 +43,9 @@ public class SplashActivity extends BaseActivity {
     @Bind(R.id.loading_error_image)
     ImageView mLoadingErrorImage;
 
+    @Bind(R.id.retry_connection)
+    ImageView mRetryConnection;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,11 +55,17 @@ public class SplashActivity extends BaseActivity {
         // Set the question as null. Hence new data will be reloaded.
         applicationSharedPreference.setNewQuestions(null);
 
-        if (NetworkUtil.isNetworkAvailable(this)) {
-            loadData();
-        } else {
-            showError(false);
-        }
+        checkNetworkAndLoadData();
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.retry_connection)
+    public void retryConnection(View view) {
+        mLoadingErrorImage.setVisibility(View.GONE);
+        mAVILoading.setVisibility(View.VISIBLE);
+        mLoadingMessage.setText(getString(R.string.loading_message));
+        mRetryConnection.setVisibility(View.GONE);
+        checkNetworkAndLoadData();
     }
 
     /***************************** Load Data *********************************/
@@ -81,8 +91,9 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void showError(boolean isNetworkAvailable) {
-        mAVILoading.hide();
+        mAVILoading.setVisibility(View.GONE);
         mLoadingErrorImage.setVisibility(View.VISIBLE);
+        mRetryConnection.setVisibility(View.VISIBLE);
         if (isNetworkAvailable) {
             mLoadingMessage.setText(getString(R.string.error_loading_message));
         } else {
@@ -91,6 +102,14 @@ public class SplashActivity extends BaseActivity {
     }
 
     /*************************** Network Calls *******************************/
+
+    private void checkNetworkAndLoadData() {
+        if (NetworkUtil.isNetworkAvailable(this)) {
+            loadData();
+        } else {
+            showError(false);
+        }
+    }
 
     private void loadData() {
         new Handler().postDelayed(new Runnable() {

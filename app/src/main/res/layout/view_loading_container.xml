@@ -42,10 +42,22 @@
             android:id="@+id/loading_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:gravity="center"
             android:text="@string/loading_message"
             android:textColor="@android:color/white"
             android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/retry_connection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:contentDescription="@string/error_loading_message"
+            android:src="@android:drawable/stat_notify_sync_noanim"
+            android:tint="@android:color/white"
+            android:visibility="visible" />
 
     </LinearLayout>
 
