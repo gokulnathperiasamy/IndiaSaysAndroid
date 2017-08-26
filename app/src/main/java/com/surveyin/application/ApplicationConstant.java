@@ -22,6 +22,13 @@ public class ApplicationConstant {
     public static final String OPTION_B = "OptionB";
     public static final String OPTION_C = "OptionC";
     public static final String OPTION_D = "OptionD";
+    public static final String IS_VALID = "IsValid";
+    public static final String IS_AGE_RESTRICTED = "IsAgeRestricted";
+
+    public static final String RESULT = "Result";
+    public static final String QUESTION_ID = "QuestionID";
+    public static final String GENDER = "Gender";
+    public static final String OPTIONS = "Options";
 
     public static final int DELAY_LOADING = 2000;
 

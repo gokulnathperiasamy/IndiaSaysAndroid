@@ -181,6 +181,8 @@ public class SplashActivity extends BaseActivity {
                     questionOptions.optionB = jsonObject.getString(ApplicationConstant.OPTION_B);
                     questionOptions.optionC = jsonObject.getString(ApplicationConstant.OPTION_C);
                     questionOptions.optionD = jsonObject.getString(ApplicationConstant.OPTION_D);
+                    questionOptions.isValid = jsonObject.getBoolean(ApplicationConstant.IS_VALID);
+                    questionOptions.isAgeRestricted = jsonObject.getBoolean(ApplicationConstant.IS_AGE_RESTRICTED);
                     questionOptionsList.add(questionOptions);
                 }
                 applicationSharedPreference.setNewQuestions(new Gson().toJson(questionOptionsList));
