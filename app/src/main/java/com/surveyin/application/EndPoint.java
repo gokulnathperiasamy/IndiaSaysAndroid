@@ -10,5 +10,6 @@ public abstract class EndPoint {
     public static final String IS_CONNECTED = BASE_URL + "/bwc/isconnected";
     public static final String GET_QUESTION_OPTIONS = BASE_URL + "/qowc/getquestionoptions";
     public static final String UPDATE_QUESTION_RESULT = BASE_URL + "/qrwc/updatequestionresult";
+    public static final String GET_ALL_QUESTION_RESULTS = BASE_URL + "/qrwc/getallquestionresults";
 
 }
