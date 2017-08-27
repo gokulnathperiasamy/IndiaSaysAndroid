@@ -29,6 +29,11 @@ public class ApplicationConstant {
     public static final String QUESTION_ID = "QuestionID";
     public static final String GENDER = "Gender";
     public static final String OPTIONS = "Options";
+    public static final String AGE_GROUP_00_14_RESPONSE = "Age_Group_00_14";
+    public static final String AGE_GROUP_15_24_RESPONSE = "Age_Group_15_24";
+    public static final String AGE_GROUP_25_34_RESPONSE = "Age_Group_25_34";
+    public static final String AGE_GROUP_35_44_RESPONSE = "Age_Group_35_44";
+    public static final String AGE_GROUP_45_99_RESPONSE = "Age_Group_45_99";
 
     public static final int DELAY_LOADING = 2000;
 

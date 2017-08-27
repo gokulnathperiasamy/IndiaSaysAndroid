@@ -1,12 +1,8 @@
 package com.surveyin.activity;
 
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
-import android.text.style.StyleSpan;
+import android.os.Handler;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -19,11 +15,26 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.surveyin.R;
+import com.surveyin.application.ApplicationConstant;
+import com.surveyin.application.EndPoint;
+import com.surveyin.entity.QuestionResult;
+import com.surveyin.entity.Result;
+import com.surveyin.utility.NetworkUtil;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class ResultActivity extends BaseActivity {
 
@@ -47,11 +58,158 @@ public class ResultActivity extends BaseActivity {
 
         ButterKnife.bind(this);
 
-        mQuestion.setText("Who will win the English Premier League 2017 - 2018?");
+        getResultData();
 
-        setupMalePieData(mChartMale, getString(R.string.user_male));
-        setupMalePieData(mChartFemale, getString(R.string.user_female));
+//        mQuestion.setText("Who will win the English Premier League 2017 - 2018?");
+
+//        setupMalePieData(mChartMale, getString(R.string.user_male));
+//        setupMalePieData(mChartFemale, getString(R.string.user_female));
     }
+
+    private void getResultData() {
+        checkNetworkAndLoadData();
+    }
+
+
+
+    /**************************** UI Updates *********************************/
+
+    private void updateUI() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                showError(true);
+            }
+        });
+    }
+
+    private void showError(boolean isNetworkAvailable) {
+//        mAVILoading.setVisibility(View.GONE);
+//        mLoadingErrorImage.setVisibility(View.VISIBLE);
+//        mRetryConnection.setVisibility(View.VISIBLE);
+//        if (isNetworkAvailable) {
+//            mLoadingMessage.setText(getString(R.string.error_loading_message));
+//        } else {
+//            mLoadingMessage.setText(getString(R.string.network_error_message));
+//        }
+    }
+
+    /*************************** Network Calls *******************************/
+
+    private void checkNetworkAndLoadData() {
+        if (NetworkUtil.isNetworkAvailable(this)) {
+            loadData();
+        } else {
+            showError(false);
+        }
+    }
+
+    private void loadData() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                checkIsConnectedToServer();
+            }
+        }, ApplicationConstant.DELAY_LOADING);
+    }
+
+    private void checkIsConnectedToServer() {
+        Request request = new Request.Builder()
+                .url(EndPoint.IS_CONNECTED)
+                .build();
+
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                parseServerConnectionCheckResponse(null);
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                parseServerConnectionCheckResponse(response);
+            }
+        });
+    }
+
+    private void loadResultsFromServer() {
+        Request request = new Request.Builder()
+                .url(EndPoint.GET_ALL_QUESTION_RESULTS)
+                .build();
+
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                parseResultsResponse(null);
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                parseResultsResponse(response);
+            }
+        });
+    }
+
+    /************************** Parse Response *******************************/
+
+    private void parseServerConnectionCheckResponse(Response response) {
+        if (response != null && response.isSuccessful()) {
+            loadResultsFromServer();
+        } else {
+            updateUI();
+        }
+    }
+
+    private List<QuestionResult> parseResultsResponse(Response response) {
+        List<QuestionResult> questionResultList = new ArrayList<>();
+        if (response != null && response.isSuccessful() && response.body() != null) {
+            try {
+                String responseString = response.body().string();
+                JSONArray jsonArrayResponse = new JSONArray(responseString);
+
+                for (int i = 0; i < jsonArrayResponse.length(); i++) {
+                    JSONObject jsonObjectQuestion = jsonArrayResponse.getJSONObject(i);
+                    QuestionResult questionResult = new QuestionResult();
+                    questionResult.question = jsonObjectQuestion.getString(ApplicationConstant.QUESTION);
+                    questionResult.optionA = jsonObjectQuestion.getString(ApplicationConstant.OPTION_A);
+                    questionResult.optionB = jsonObjectQuestion.getString(ApplicationConstant.OPTION_B);
+                    questionResult.optionC = jsonObjectQuestion.getString(ApplicationConstant.OPTION_C);
+                    questionResult.optionD = jsonObjectQuestion.getString(ApplicationConstant.OPTION_D);
+
+                    JSONArray jsonArrayResult = jsonObjectQuestion.getJSONArray(ApplicationConstant.RESULT);
+                    List<Result> questionResults = new ArrayList<>();
+                    for (int j = 0; j < jsonArrayResult.length(); j++) {
+                        JSONObject jsonObjectQuestionResults = jsonArrayResult.getJSONObject(j);
+                        Result results = new Result();
+                        results.questionID = jsonObjectQuestionResults.getString(ApplicationConstant.QUESTION_ID);
+                        results.question = jsonObjectQuestionResults.getString(ApplicationConstant.QUESTION);
+                        results.gender = jsonObjectQuestionResults.getString(ApplicationConstant.GENDER);
+                        results.options = jsonObjectQuestionResults.getString(ApplicationConstant.OPTIONS);
+                        results.ageGroup_00_14 = jsonObjectQuestionResults.getLong(ApplicationConstant.AGE_GROUP_00_14_RESPONSE);
+                        results.ageGroup_15_24 = jsonObjectQuestionResults.getLong(ApplicationConstant.AGE_GROUP_15_24_RESPONSE);
+                        results.ageGroup_25_34 = jsonObjectQuestionResults.getLong(ApplicationConstant.AGE_GROUP_25_34_RESPONSE);
+                        results.ageGroup_35_44 = jsonObjectQuestionResults.getLong(ApplicationConstant.AGE_GROUP_35_44_RESPONSE);
+                        results.ageGroup_45_99 = jsonObjectQuestionResults.getLong(ApplicationConstant.AGE_GROUP_45_99_RESPONSE);
+                        questionResults.add(results);
+                    }
+                    questionResult.result = questionResults;
+                    questionResultList.add(questionResult);
+                }
+                return questionResultList;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            showError(true);
+        }
+
+        return null;
+    }
+
+    /***************************** Pie Chart *********************************/
 
     private void setupMalePieData(PieChart pieChart, String lable) {
         pieChart.setUsePercentValues(true);
