@@ -57,7 +57,7 @@
             android:contentDescription="@string/error_loading_message"
             android:src="@android:drawable/stat_notify_sync_noanim"
             android:tint="@android:color/white"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
     </LinearLayout>
 
