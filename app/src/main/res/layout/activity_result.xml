@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_result"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     tools:context=".activity.SplashActivity">
+
+    <com.synnapps.carouselview.CarouselView
+        android:id="@+id/result_questions_carousel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="48dp"
+        app:autoPlay="false"
+        app:fillColor="@color/colorPrimary"
+        app:indicatorVisibility="visible"
+        app:pageColor="#00000000"
+        app:radius="4dp"
+        app:slideInterval="3000"
+        app:strokeColor="@color/colorPrimary"
+        app:strokeWidth="1dp" />
 
     <include layout="@layout/view_results_container" />
 

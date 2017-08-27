@@ -3,6 +3,7 @@ package com.surveyin.activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -20,6 +21,8 @@ import com.surveyin.application.EndPoint;
 import com.surveyin.entity.QuestionResult;
 import com.surveyin.entity.Result;
 import com.surveyin.utility.NetworkUtil;
+import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ViewListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,14 +41,13 @@ import okhttp3.Response;
 
 public class ResultActivity extends BaseActivity {
 
-    @Bind(R.id.question)
-    TextView mQuestion;
+    @Bind(R.id.result_questions_carousel)
+    CarouselView mResultQuestionsCarousel;
 
-    @Bind(R.id.chartMale)
-    PieChart mChartMale;
+    @Bind(R.id.results_container)
+    View mResultsContainer;
 
-    @Bind(R.id.chartFemale)
-    PieChart mChartFemale;
+    List<QuestionResult> questionResultList;
 
     protected String[] mParties = new String[] {
             "Option A", "Option B", "Option C", "Option D"
@@ -55,44 +57,52 @@ public class ResultActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
-
         ButterKnife.bind(this);
-
         getResultData();
-
-//        mQuestion.setText("Who will win the English Premier League 2017 - 2018?");
-
-//        setupMalePieData(mChartMale, getString(R.string.user_male));
-//        setupMalePieData(mChartFemale, getString(R.string.user_female));
     }
 
     private void getResultData() {
         checkNetworkAndLoadData();
     }
 
-
-
     /**************************** UI Updates *********************************/
 
-    private void updateUI() {
+    private void updateUI(final boolean isResultsAvailable) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                showError(true);
+                showResultsLayout(isResultsAvailable);
             }
         });
     }
 
-    private void showError(boolean isNetworkAvailable) {
-//        mAVILoading.setVisibility(View.GONE);
-//        mLoadingErrorImage.setVisibility(View.VISIBLE);
-//        mRetryConnection.setVisibility(View.VISIBLE);
-//        if (isNetworkAvailable) {
-//            mLoadingMessage.setText(getString(R.string.error_loading_message));
-//        } else {
-//            mLoadingMessage.setText(getString(R.string.network_error_message));
-//        }
+    private void showResultsLayout(boolean isResultsAvailable) {
+        if (isResultsAvailable) {
+            mResultsContainer.setVisibility(View.VISIBLE);
+            mResultQuestionsCarousel.setVisibility(View.VISIBLE);
+            mResultQuestionsCarousel.setViewListener(resultQuestionsViewListener);
+            mResultQuestionsCarousel.setPageCount(questionResultList.size());
+            //mResultQuestionsCarousel.setCurrentItem(1);
+        }
     }
+
+    ViewListener resultQuestionsViewListener = new ViewListener() {
+        @Override
+        public View setViewForPosition(int position) {
+            View customView;
+            customView = getLayoutInflater().inflate(R.layout.view_results_container, null);
+            try {
+                ((TextView) customView.findViewById(R.id.question)).setText(questionResultList.get(position).question);
+                PieChart mChartMale = (PieChart) customView.findViewById(R.id.chart_male);
+                setupPieData(mChartMale, getString(R.string.user_male));
+                PieChart mChartFemale = (PieChart) customView.findViewById(R.id.chart_female);
+                setupPieData(mChartFemale, getString(R.string.user_female));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return customView;
+        }
+    };
 
     /*************************** Network Calls *******************************/
 
@@ -100,7 +110,7 @@ public class ResultActivity extends BaseActivity {
         if (NetworkUtil.isNetworkAvailable(this)) {
             loadData();
         } else {
-            showError(false);
+            showResultsLayout(false);
         }
     }
 
@@ -155,12 +165,12 @@ public class ResultActivity extends BaseActivity {
         if (response != null && response.isSuccessful()) {
             loadResultsFromServer();
         } else {
-            updateUI();
+            updateUI(false);
         }
     }
 
-    private List<QuestionResult> parseResultsResponse(Response response) {
-        List<QuestionResult> questionResultList = new ArrayList<>();
+    private void parseResultsResponse(Response response) {
+        questionResultList = new ArrayList<>();
         if (response != null && response.isSuccessful() && response.body() != null) {
             try {
                 String responseString = response.body().string();
@@ -193,8 +203,8 @@ public class ResultActivity extends BaseActivity {
                     }
                     questionResult.result = questionResults;
                     questionResultList.add(questionResult);
+                    updateUI(true);
                 }
-                return questionResultList;
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -203,15 +213,13 @@ public class ResultActivity extends BaseActivity {
                 e.printStackTrace();
             }
         } else {
-            showError(true);
+            updateUI(false);
         }
-
-        return null;
     }
 
     /***************************** Pie Chart *********************************/
 
-    private void setupMalePieData(PieChart pieChart, String lable) {
+    private void setupPieData(PieChart pieChart, String lable) {
         pieChart.setUsePercentValues(true);
         pieChart.getDescription().setEnabled(false);
         pieChart.setExtraOffsets(5, 10, 5, 5);
@@ -233,8 +241,8 @@ public class ResultActivity extends BaseActivity {
 
         pieChart.setRotationAngle(0);
         // enable rotation of the chart by touch
-        pieChart.setRotationEnabled(true);
-        pieChart.setHighlightPerTapEnabled(true);
+        // pieChart.setRotationEnabled(true);
+        // pieChart.setHighlightPerTapEnabled(true);
 
         setData(pieChart, 4, 100);
 

@@ -58,7 +58,7 @@ public class QuestionActivity extends BaseActivity {
         userResponse = new UserResponse();
 
         loadPreferenceData();
-        if (!applicationSharedPreference.getAlreadyAnsweredQuestionList().isEmpty() && false) {
+        if (!applicationSharedPreference.getAlreadyAnsweredQuestionList().isEmpty() && false) {     // To test. Remove later.
             setupCarouselView(false);
         } else {
             setupCarouselView(true);
