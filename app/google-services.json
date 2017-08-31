@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "274554715078",
+    "firebase_url": "https://surveyin-android-ea472.firebaseio.com",
+    "project_id": "surveyin-android-ea472",
+    "storage_bucket": "surveyin-android-ea472.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:274554715078:android:dbd22f58beba3a00",
+        "android_client_info": {
+          "package_name": "com.surveyin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "274554715078-tec29ljfv9dhf8ssutadclhbtsoh7j4b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.surveyin",
+            "certificate_hash": "0945263c43497343e7ad9d818b539336cc23bb79"
+          }
+        },
+        {
+          "client_id": "274554715078-0dhn2hp7mcn8no5j45ebs61pl1uibp5l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDx9IlrYAVVh-im7a7L95geOi8gFDbyXkg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "274554715078-0dhn2hp7mcn8no5j45ebs61pl1uibp5l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
