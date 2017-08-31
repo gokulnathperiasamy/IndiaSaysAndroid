@@ -82,7 +82,7 @@ public class ResultActivity extends BaseActivity {
             mResultQuestionsCarousel.setVisibility(View.VISIBLE);
             mResultQuestionsCarousel.setViewListener(resultQuestionsViewListener);
             mResultQuestionsCarousel.setPageCount(questionResultList.size());
-            //mResultQuestionsCarousel.setCurrentItem(1);
+            mResultQuestionsCarousel.setCurrentItem(1);
         }
     }
 
