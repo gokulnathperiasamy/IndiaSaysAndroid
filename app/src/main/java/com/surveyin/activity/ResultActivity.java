@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -21,8 +22,8 @@ import com.surveyin.application.EndPoint;
 import com.surveyin.entity.QuestionResult;
 import com.surveyin.entity.Result;
 import com.surveyin.utility.NetworkUtil;
-import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ViewListener;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +35,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Request;
@@ -41,11 +43,17 @@ import okhttp3.Response;
 
 public class ResultActivity extends BaseActivity {
 
-    @Bind(R.id.result_questions_carousel)
-    CarouselView mResultQuestionsCarousel;
+    @Bind(R.id.avi_loading)
+    AVLoadingIndicatorView mAVILoading;
 
-    @Bind(R.id.results_container)
-    View mResultsContainer;
+    @Bind(R.id.loading_message)
+    TextView mLoadingMessage;
+
+    @Bind(R.id.loading_error_image)
+    ImageView mLoadingErrorImage;
+
+    @Bind(R.id.retry_connection)
+    ImageView mRetryConnection;
 
     List<QuestionResult> questionResultList;
 
@@ -61,13 +69,43 @@ public class ResultActivity extends BaseActivity {
         getResultData();
     }
 
+    @SuppressWarnings("unused")
+    @OnClick(R.id.retry_connection)
+    public void retryConnection(View view) {
+        mLoadingErrorImage.setVisibility(View.GONE);
+        mAVILoading.setVisibility(View.VISIBLE);
+        mLoadingMessage.setText(getString(R.string.loading_message));
+        mRetryConnection.setVisibility(View.GONE);
+        checkNetworkAndLoadData();
+    }
+
     private void getResultData() {
         checkNetworkAndLoadData();
     }
 
     /**************************** UI Updates *********************************/
 
-    private void updateUI(final boolean isResultsAvailable) {
+    private void updateErrorUI() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                showErrorLayout(true);
+            }
+        });
+    }
+
+    private void showErrorLayout(boolean isNetworkAvailable) {
+        mAVILoading.setVisibility(View.GONE);
+        mLoadingErrorImage.setVisibility(View.VISIBLE);
+        mRetryConnection.setVisibility(View.VISIBLE);
+        if (isNetworkAvailable) {
+            mLoadingMessage.setText(getString(R.string.error_loading_message));
+        } else {
+            mLoadingMessage.setText(getString(R.string.network_error_message));
+        }
+    }
+
+    private void updateResultUI(final boolean isResultsAvailable) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -78,31 +116,11 @@ public class ResultActivity extends BaseActivity {
 
     private void showResultsLayout(boolean isResultsAvailable) {
         if (isResultsAvailable) {
-            mResultsContainer.setVisibility(View.VISIBLE);
-            mResultQuestionsCarousel.setVisibility(View.VISIBLE);
-            mResultQuestionsCarousel.setViewListener(resultQuestionsViewListener);
-            mResultQuestionsCarousel.setPageCount(questionResultList.size());
-            mResultQuestionsCarousel.setCurrentItem(1);
+            mAVILoading.setVisibility(View.GONE);
+            mLoadingErrorImage.setVisibility(View.GONE);
+            mRetryConnection.setVisibility(View.GONE);
         }
     }
-
-    ViewListener resultQuestionsViewListener = new ViewListener() {
-        @Override
-        public View setViewForPosition(int position) {
-            View customView;
-            customView = getLayoutInflater().inflate(R.layout.view_results_container, null);
-            try {
-                ((TextView) customView.findViewById(R.id.question)).setText(questionResultList.get(position).question);
-                PieChart mChartMale = (PieChart) customView.findViewById(R.id.chart_male);
-                setupPieData(mChartMale, getString(R.string.user_male));
-                PieChart mChartFemale = (PieChart) customView.findViewById(R.id.chart_female);
-                setupPieData(mChartFemale, getString(R.string.user_female));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return customView;
-        }
-    };
 
     /*************************** Network Calls *******************************/
 
@@ -110,7 +128,7 @@ public class ResultActivity extends BaseActivity {
         if (NetworkUtil.isNetworkAvailable(this)) {
             loadData();
         } else {
-            showResultsLayout(false);
+            showErrorLayout(false);
         }
     }
 
@@ -165,7 +183,7 @@ public class ResultActivity extends BaseActivity {
         if (response != null && response.isSuccessful()) {
             loadResultsFromServer();
         } else {
-            updateUI(false);
+            showErrorLayout(false);
         }
     }
 
@@ -203,7 +221,7 @@ public class ResultActivity extends BaseActivity {
                     }
                     questionResult.result = questionResults;
                     questionResultList.add(questionResult);
-                    updateUI(true);
+                    updateResultUI(true);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -213,7 +231,7 @@ public class ResultActivity extends BaseActivity {
                 e.printStackTrace();
             }
         } else {
-            updateUI(false);
+            updateResultUI(false);
         }
     }
 
