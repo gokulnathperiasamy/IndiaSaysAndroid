@@ -16,6 +16,7 @@
     <string name="network_error_message">Please check your network connectivity and try again.</string>
     <string name="loading_message">Connecting to server. Please wait.</string>
     <string name="error_loading_message">Unable to reach server.\nPlease try after few minutes.</string>
+    <string name="results_not_published_message">Results not published.\nPlease try after few hours.</string>
     <string name="updated_successfully">Successfully Updated!</string>
     <string name="already_answered">Already Answered!</string>
 

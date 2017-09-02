@@ -3,6 +3,9 @@ package com.surveyin.activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,12 +20,12 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.surveyin.R;
+import com.surveyin.adapter.ResultListAdapter;
 import com.surveyin.application.ApplicationConstant;
 import com.surveyin.application.EndPoint;
 import com.surveyin.entity.QuestionResult;
 import com.surveyin.entity.Result;
 import com.surveyin.utility.NetworkUtil;
-import com.synnapps.carouselview.ViewListener;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;
@@ -54,6 +57,11 @@ public class ResultActivity extends BaseActivity {
 
     @Bind(R.id.retry_connection)
     ImageView mRetryConnection;
+
+    @Bind(R.id.rv_result_list)
+    RecyclerView mResultList;
+
+    ResultListAdapter resultListAdapter;
 
     List<QuestionResult> questionResultList;
 
@@ -119,7 +127,26 @@ public class ResultActivity extends BaseActivity {
             mAVILoading.setVisibility(View.GONE);
             mLoadingErrorImage.setVisibility(View.GONE);
             mRetryConnection.setVisibility(View.GONE);
+            if (questionResultList != null && questionResultList.size() > 0) {
+                mLoadingMessage.setVisibility(View.GONE);
+                setupRecyclerView();
+            } else {
+                mLoadingMessage.setVisibility(View.VISIBLE);
+                mLoadingMessage.setText(getString(R.string.results_not_published_message));
+            }
         }
+    }
+
+    private void setupRecyclerView() {
+        mResultList.setVisibility(View.VISIBLE);
+
+        resultListAdapter = new ResultListAdapter(questionResultList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        mResultList.setLayoutManager(mLayoutManager);
+        mResultList.setItemAnimator(new DefaultItemAnimator());
+        mResultList.setAdapter(resultListAdapter);
+
+        resultListAdapter.notifyDataSetChanged();
     }
 
     /*************************** Network Calls *******************************/
