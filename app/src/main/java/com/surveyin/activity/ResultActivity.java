@@ -140,7 +140,7 @@ public class ResultActivity extends BaseActivity {
     private void setupRecyclerView() {
         mResultList.setVisibility(View.VISIBLE);
 
-        resultListAdapter = new ResultListAdapter(questionResultList);
+        resultListAdapter = new ResultListAdapter(questionResultList, this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         mResultList.setLayoutManager(mLayoutManager);
         mResultList.setItemAnimator(new DefaultItemAnimator());
