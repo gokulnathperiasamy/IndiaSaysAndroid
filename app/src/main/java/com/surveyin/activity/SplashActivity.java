@@ -74,7 +74,7 @@ public class SplashActivity extends BaseActivity {
         if (TextUtil.isEmpty(applicationSharedPreference.getUserAgeGroup()) || TextUtil.isEmpty(applicationSharedPreference.getUserGender())) {
             startActivity(new Intent(SplashActivity.this, RegistrationActivity.class));
         } else {
-            startActivity(new Intent(SplashActivity.this, QuestionActivity.class));
+            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
         }
         finish();
     }

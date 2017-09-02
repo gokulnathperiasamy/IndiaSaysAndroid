@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    android:background="@drawable/rounded_layout"
+    tools:context=".activity.HomeActivity">
+
+    <include layout="@layout/view_empty_container" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="48dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <com.andexert.library.RippleView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            ripple:rv_centered="true"
+            ripple:rv_color="@color/colorPrimaryLight">
+
+            <TextView
+                android:id="@+id/selection_survey"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:text="@string/selection_survey"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </com.andexert.library.RippleView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+
+        <com.andexert.library.RippleView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            ripple:rv_centered="true"
+            ripple:rv_color="@color/colorPrimaryLight">
+
+            <TextView
+                android:id="@+id/selection_result"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:text="@string/selection_result"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </com.andexert.library.RippleView>
+
+    </LinearLayout>
+
+    <include layout="@layout/view_copyright_message" />
+</RelativeLayout>

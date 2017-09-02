@@ -58,7 +58,7 @@ public class QuestionActivity extends BaseActivity {
         userResponse = new UserResponse();
 
         loadPreferenceData();
-        if (!applicationSharedPreference.getAlreadyAnsweredQuestionList().isEmpty() && false) {     // To test. Remove later.
+        if (!applicationSharedPreference.getAlreadyAnsweredQuestionList().isEmpty()) {     // To test. Remove later.
             setupCarouselView(false);
         } else {
             setupCarouselView(true);
@@ -78,17 +78,8 @@ public class QuestionActivity extends BaseActivity {
     /**************************** UI Updates *********************************/
 
     private void setupCarouselView(boolean isNotAnswered) {
-        updateUI();
-        if (isNotAnswered) {
-            mQuestionsCarousel.setVisibility(View.VISIBLE);
-        } else {
-            mQuestionsCarousel.setVisibility(View.VISIBLE);
-            mQuestionsCarousel.setCurrentItem(questionOptions.size() + 1);
-        }
-    }
-
-    private void updateUI() {
-        mQuestionsCarousel.setPageCount(questionOptions.size() + 1);    // +1 for result page
+        mQuestionsCarousel.setVisibility(View.VISIBLE);
+        mQuestionsCarousel.setPageCount(questionOptions.size() + 1);    // For results screen.!
         mQuestionsCarousel.setViewListener(questionOptionsViewListener);
     }
 

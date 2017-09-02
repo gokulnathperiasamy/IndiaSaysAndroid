@@ -9,6 +9,8 @@
 
     <string name="user_register_error_message">Please select Gender and Age</string>
     <string name="user_register_title">Register</string>
+    <string name="selection_survey">Survey</string>
+    <string name="selection_result">Results</string>
     <string name="view_result_cta">View Result</string>
 
     <string name="network_error_message">Please check your network connectivity and try again.</string>

@@ -117,7 +117,7 @@ public class RegistrationActivity extends BaseActivity {
                 } else {
                     applicationSharedPreference.setUserGender(userGender);
                     applicationSharedPreference.setUserAgeGroup(userAgeGroup);
-                    startActivity(new Intent(RegistrationActivity.this, QuestionActivity.class));
+                    startActivity(new Intent(RegistrationActivity.this, HomeActivity.class));
                     finish();
                 }
             }
